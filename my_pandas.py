@@ -1,18 +1,12 @@
 import pandas as pd
 
-students_information=pd.read_csv('students.txt' )
+users_information=pd.read_csv('users.txt')
+orders_information=pd.read_csv('orders.txt')
 
-class_students=students_information.groupby('class')
+unified_information=pd.merge(users_information, orders_information, on='user_id')
 
-mean_score=class_students['score'].mean()
-print(mean_score)
+print(unified_information.groupby('gender')['price'].sum())
 
-gender_students=students_information.groupby('gender')
+print(unified_information['price'].sum())
 
-boy_highest_score=gender_students.get_group('남')['score'].max()
-girl_highest_score=gender_students.get_group('여')['score'].max()
-
-print(boy_highest_score)
-print(girl_highest_score)
-
-print(class_students.size())
+print(unified_information.groupby('name')['price'].sum().sort_values(ascending=False).head(3))
